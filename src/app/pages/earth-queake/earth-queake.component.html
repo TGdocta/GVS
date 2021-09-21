@@ -1,0 +1,53 @@
+
+<div class="row ">
+  <div *ngIf="isShow" class="alert alert-success mx-auto" role="alert">The earthquake in : {{earthQuake.title}} was successfully deleted</div>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Search EarhQuake" [(ngModel)]="searchString" >
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="clearSearchBar()">Clear</button>
+    </div>
+  </div>
+  <div class="col-md-3 " *ngFor="let earhQuake of earhQuakes | searchEarthQuake : searchString  | paginate : {itemsPerPage:earhQuakesPerPage, currentPage: p, id:'eQuekes' } ;let i = index ; ">
+    <div  class="card my-3">
+      <div class="card-body">
+        <div class="card-title" (click)="editName(earhQuake)" > 
+         <span class="title" *ngIf="!earhQuake.edit">{{earhQuake.title}} </span> 
+         <input *ngIf="earhQuake.edit" type="text" [value]="earhQuake.title" [(ngModel)]="earhQuake.title">
+        </div>
+        <small *ngIf="earhQuake.title === ''" class="text-danger text-center">Enter a valid title</small>
+          <div class="card-subtitle mb-2 text-muted">{{earhQuake.status}}</div>
+            <p class="card-text"> Lat: {{earhQuake.coordinates[0]}}</p><p class="card-text"> Long: {{earhQuake.coordinates[1]}}</p>
+            <div>Prof: {{earhQuake.coordinates[2]}}</div>
+        <button *ngIf="earhQuake.edit" class="btn btn-outline-primary btn-block mt-3 " (click)="editEarthQuake(earhQuake)">save</button>
+        <button class="btn btn-outline-danger btn-block delete-btn" data-toggle="modal" data-target="#earthQuakeModal" (click)="bindEarthQuake(earhQuake)">Delete</button>
+      </div>
+    </div>
+  </div>
+  <div class="paginate-center">
+    <pagination-controls previousLabel="prev" nextLabel="next" (pageChange)="p = $event"
+    id="eQuekes"></pagination-controls>
+  </div>
+</div>
+
+<!------------------------------------------------------  Modal -------------------------------------------------------->
+<div class="modal fade" id="earthQuakeModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center" id="earthQuakeModal">Warning</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="text-center">Are you sure you want to delete : </p>
+          <div>
+            <p class="text-danger text-center"> {{earthQuake.title}}</p>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger btn-block" data-dismiss="modal" (click)="deleteEarthQuake()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+.paginate-center{
+  margin: 30px auto;
+}
+
+.card{
+  height: 300px;
+}
+
+.title{
+  cursor: pointer;
+}
+
+.delete-btn{
+  position: absolute;
+  
+  right:20px;
+  bottom:10px;
+  width: 85%;
+}
